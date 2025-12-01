@@ -1,0 +1,19 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - run: python -m venv venv
+    - run: . venv/bin/activate && pip install -r infra/requirements.txt
+    - run: . venv/bin/activate && pytest -q
